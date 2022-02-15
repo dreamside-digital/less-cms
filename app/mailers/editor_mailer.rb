@@ -6,7 +6,7 @@ class EditorMailer < ApplicationMailer
     @email_address = editor_info["email"]
     @editor_name = editor_info["displayName"]
     @website_name = website.project_name
-    mail(to: @email_address, cc: "sharon@nomadiclabs.ca", subject: "#{@website_name} has been published!")
+    mail(to: @email_address, cc: ENV["notifications_email"], subject: "#{@website_name} has been published!")
   end
 
   def deploy_failed_email
@@ -15,7 +15,7 @@ class EditorMailer < ApplicationMailer
     @email_address = editor_info["email"]
     @editor_name = editor_info["displayName"]
     @website_name = website.project_name
-    mail(to: @email_address, cc: "sharon@nomadiclabs.ca", subject: "#{@website_name} failed to publish.")
+    mail(to: @email_address, cc: ENV["notifications_email"], subject: "#{@website_name} failed to publish.")
   end
 
 end

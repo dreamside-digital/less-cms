@@ -52,6 +52,10 @@ class DeployService
 
     FileUtils.mkdir(dest_dir)
 
+    p "dest_dir: #{dest_dir}"
+    Rails.logger.info "dest_dir: #{dest_dir}"
+    Delayed::Worker.logger.info "dest_dir: #{dest_dir}"
+
     entry_name = ""
     Zip::File.open_buffer(content) do |zip_file|
       zip_file.each do |entry|
@@ -60,6 +64,10 @@ class DeployService
         entry.extract(fpath)
       end
     end
+
+    p "entry_name: #{entry_name}"
+    Rails.logger.info "entry_name: #{entry_name}"
+    Delayed::Worker.logger.info "entry_name: #{entry_name}"
 
     dir_name = entry_name.split("/")[0]
     p "Extracted files to #{dir_name}"
