@@ -85,9 +85,13 @@ class DeployService
         Rails.logger.info "Switching to node version #{node_version}"
         Delayed::Worker.logger.info "Switching to node version #{node_version}"
 
-        success = system("nvm use #{node_version}")
+        result = `nvm use #{node_version}`
 
-        if !success
+        if $?.exitstatus != 0
+          result = system("nvm use #{node_version}")
+        end
+
+        if $?.exitstatus != 0
           p "Failed to set node version (nvm use #{node_version}) with exit status code #{$?}. Attempting to continue."
           Rails.logger.info "Failed to set node version (nvm use #{node_version}) with exit status code #{$?}. Attempting to continue."
           Delayed::Worker.logger.info "Failed to set node version (nvm use #{node_version}) with exit status code #{$?}. Attempting to continue."
